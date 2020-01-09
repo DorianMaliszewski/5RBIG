@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "938066067",
+    "hash" : "0",
     "id" : "90B84F8",
-    "lastKnownWriteTime" : 1578601710,
-    "last_content_update" : 1578601710684,
+    "lastKnownWriteTime" : 1578611776,
+    "last_content_update" : 1578611776905,
     "path" : "~/Projects/Cours/5RBIG/5RBIG.r",
     "project_path" : "5RBIG.r",
     "properties" : {
-        "cursorPosition" : "95,0",
-        "scrollLine" : "67"
+        "cursorPosition" : "178,121",
+        "scrollLine" : "158"
     },
     "read_only" : false,
     "read_only_alternatives" : [
