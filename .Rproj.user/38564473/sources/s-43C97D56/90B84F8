@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1578582459455.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "938066067",
+    "id" : "90B84F8",
+    "lastKnownWriteTime" : 1578601710,
+    "last_content_update" : 1578601710684,
+    "path" : "~/Projects/Cours/5RBIG/5RBIG.r",
+    "project_path" : "5RBIG.r",
+    "properties" : {
+        "cursorPosition" : "95,0",
+        "scrollLine" : "67"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
