@@ -154,7 +154,8 @@ gByTribble = gByTribble %>% mutate(Race = case_when(
     grepl("[Bb]lack", Race) ~ "Black",
     grepl("[Aa]sian", Race) ~ "Asian",
     grepl("[Nn]ative", Race) ~ "Native",
-    Race == "Some other race" | Race == "Two or more races" | Race == "Other" | Race == "" ~ "Unknown",
+    Race == "Some other race" | Race == "Two or more races" | Race == "Other" ~ "Other",
+    Race == "" ~ "Unknown",
     TRUE ~ Race
   )
 )
@@ -163,7 +164,7 @@ gByTribble = gByTribble %>% mutate(Race = case_when(
 gByTribble = gByTribble %>% mutate(`Mental Health Issues` = case_when(`Mental Health Issues` == "Unclear" ~ "Unknown", TRUE ~ `Mental Health Issues`))
 
 #Open/Close Location
-gByTribble = gByTribble %>% mutate(`Open/Close Location` = case_when(`Open/Close Location` == "Open+Close" ~ "Unknown", TRUE ~ `Open/Close Location`))
+gByTribble = gByTribble %>% mutate(`Open/Close Location` = case_when(`Open/Close Location` == "Open+Close" |  `Open/Close Location` == "" ~ "Unknown", TRUE ~ `Open/Close Location`))
 
 #Cause
 gByTribble = gByTribble %>% mutate(Cause = case_when(Cause == "" ~ "Unknown", TRUE ~ firstup(Cause)))
@@ -171,19 +172,40 @@ gByTribble = gByTribble %>% mutate(Cause = case_when(Cause == "" ~ "Unknown", TR
 
 #Target
 gByTribble = gByTribble %>% mutate(Target = case_when(Target == "" ~ "Random", TRUE ~ firstup(Target)))
-
+gByTribble$Target = str_replace_all(gByTribble$Target, "\\+", ", ")
+gByTribble$Target = str_replace_all(gByTribble$Target, "/", ", ")
 
 #Incident Area
-gByTribble = gByTribble %>% mutate(`Incident Area` = case_when(`Incident Area` == "" ~ "Random", TRUE ~ firstup(`Incident Area`)))
-
+gByTribble$`Incident Area` = gByTribble$`Incident Area` %>% str_remove("^in ")
+gByTribble = gByTribble %>% mutate(`Incident Area` = case_when(`Incident Area` == "" ~ "Unknown", TRUE ~ firstup(`Incident Area`)))
+gByTribble$`Incident Area` = gByTribble$`Incident Area` %>% str_replace_all("\\+", ", ")
 
 #Weapon Type
-gByTribble = gByTribble %>% mutate(`Weapon Type` = case_when(`Weapon Type` == "" ~ "Random", TRUE ~ firstup(`Weapon Type`)))
-
-
-
+cleanData = gByTribble %>% mutate(`Weapon Type` = case_when(`Weapon Type` == "" ~ "Unknown", TRUE ~ firstup(`Weapon Type`)))
 
 ##
 # END : Group by Gender, Race, Mental Health Issue, Open/Close Location, Cause, Target, Incident Area, Weapon Type
 ##
+
+
+
+##
+# START : Study of categorical variables
+##
+
+# create more than 10 victims column
+cleanData$`More than 10 victims` = case_when(cleanData$`Total victims` >= 10 ~ 1, cleanData$`Total victims` < 10 ~ 0)
+
+# pie chart on race representation
+pie(table(cleanData$Race), main = "Shooter's race representation")
+
+# pie chart on gender representation
+pie(table(cleanData$Gender), main = "Shooter's gender representation")
+
+# barplot mass shooting by year
+shootByYear = data.frame(year = unique(cleanData$Year), count = table(cleanData$Year))
+shootByYear = cleanData$Year
+
+yearF = cleanData %>% count(Year)
+pie(cleanData %>% count(Year))
 
