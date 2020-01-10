@@ -19,7 +19,6 @@ initialcsv = as_tibble(read_csv(file="US Mass Shootings.csv"))
 
 # Get only Location , Latitude, Longitude cols
 lat_long = initialcsv %>% select(Location, Latitude, Longitude)
-glimpse(lat_long)
 
 # Get only rows without NA
 missing_location = lat_long %>% filter(is.na(Location)) %>% distinct()
@@ -80,11 +79,14 @@ i=1
 # Loop to get the city of the Google Geocode API
 while (i < length(getCities) - 1) {
     obj = getCities[1,i]$plus_code$compound_code
-    obj = strsplit(obj, " +", )[[1]][2]
-    obj = substr(obj, 1, nchar(obj)-1)
+    obj = strsplit(obj, ",", )[[1]][1]
+    obj = strsplit(obj, " +", )[[1]]
+    obj = obj[-1]
+    obj = paste(unlist(obj), collapse=" ")
     list[[i]] = obj
     i = i + 1
 }
+
 
 # Transform to tibble and rename default column
 list = as_tibble(list)
